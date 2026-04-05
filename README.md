@@ -1,16 +1,27 @@
-# React + Vite
+# 🎨 Desafio Root - Client (Frontend)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Interface web moderna desenvolvida em **React** para interação com a API de gerenciamento de tarefas.
 
-Currently, two official plugins are available:
+### 🛠️ Tecnologias Utilizadas
+* **Framework:** React (Vite)
+* **Gerenciamento de Estado:** Zustand
+* **Consumo de API:** Axios
+* **Estilização:** CSS3 / Módulos
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+### 🚀 Como Rodar o Projeto
+1. **Instalação e Configuração:**
+   ```bash
+   # Instalar dependências
+   npm install
 
-## React Compiler
+   # Criar arquivo de ambiente (exemplo)
+   # Conteúdo: VITE_API_URL=http://localhost:5000
+   touch .env
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+   # Rodar em modo de desenvolvimento
+    npm run dev
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+    Funcionalidades e Regras:
+    - Autenticação: Login integrado com persistência de token.
+    - CRUD de Tarefas: Listagem, criação, edição e exclusão.
+    - Estado Global: Gerenciamento centralizado via Zustand Store.
