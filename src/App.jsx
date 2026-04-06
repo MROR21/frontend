@@ -3,40 +3,34 @@ import { useAppStore } from './store/useAppStore';
 import { Login } from "./pages/Login";
 import { Tasks } from "./pages/Tasks";
 
-const ProtectedRoute = ({ children }) => {
-  const token = useAppStore((state) => state.token); 
-  
-  if (!token) {
-    return <Navigate to="/login" replace />;
-  }
-  
-  return children; 
-};
+  const PublicRoute = ({ children }) => {
+  const token = useAppStore((state) => state.token);
+  return !token ? children : <Navigate to="/tasks" replace />;
+  };
+
+  const ProtectedRoute = ({ children }) => {
+  const token = useAppStore((state) => state.token);
+  return token ? children : <Navigate to="/login" replace />;
+  };
 
 function App() {
-  const token = useAppStore((state) => state.token);
-
   return (
     <BrowserRouter>
       <Routes>
-        <Route
-          path="/login"
-          element={!token ? <Login /> : <Navigate to="/tasks" replace />}
-        />
+        <Route path="/login" element={
+          <PublicRoute>
+            <Login />
+          </PublicRoute>
+        } />
 
-        <Route
-          path="/tasks"
-          element={
-            <ProtectedRoute>
-              <Tasks />
-            </ProtectedRoute>
-          }
-        />
+        <Route path="/tasks" element={
+          <ProtectedRoute>
+            <Tasks />
+          </ProtectedRoute>
+        } />
 
-        <Route
-          path="*"
-          element={<Navigate to={token ? "/tasks" : "/login"} replace />}
-        />
+        <Route path="/" element={<Navigate to="/tasks" replace />} />
+        <Route path="*" element={<Navigate to="/login" replace />} />
       </Routes>
     </BrowserRouter>
   );
