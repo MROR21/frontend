@@ -90,7 +90,7 @@ export function Tasks(){
         {isNewUser && (
           <div className={`fixed bottom-5 left-5 z-[70] ${isExiting ? 'animate-[slide-down_0.5s_forwards]' : 'animate-[slide-up_0.5s_ease-out]'}`}>
             <div className="relative overflow-hidden bg-emerald-600 text-white px-6 py-4 rounded-lg shadow-2xl flex items-center gap-3 border-b-4 border-emerald-800">
-              <div className="bg-white/20 p-2 rounded-full text-xl animate-[spin_3s_linear_infinite]">✅</div>
+              <div className="bg-white/20 p-2 rounded-full text-xl">✅</div>
               <div>
                 <p className="font-bold text-lg leading-tight text-white">
                   Bem-vindo, {userName}!
@@ -100,7 +100,7 @@ export function Tasks(){
                 </p>
               </div>
 
-              <div className="absolute bottom-0 left-0 h-1 bg-emerald-300/50 w-full origin-left" />
+              <div className="absolute bottom-0 left-0 h-1 bg-emerald-300/50 w-full origin-left animate-[shrink_4s_linear_forwards]" />
             </div>
 
             <style dangerouslySetInnerHTML={{__html: `
