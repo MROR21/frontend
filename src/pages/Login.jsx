@@ -30,7 +30,7 @@ export function Login(){
         if(response.ok){
             const data = await response.json();
             console.log("Dados recebidos da API:", data);
-            setLogin(data.id, data.token, data.name);
+            setLogin(data.id, data.token, data.name, data.isNewUser);
             navigate('/tasks');
         }else{
             const errorData = await response.json();
@@ -63,7 +63,7 @@ export function Login(){
                         value={name}
                         onChange={(e) => setName(e.target.value)}
                         className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        placeholder="Digite seu nome"
+                        placeholder="digite seu nome..."
                     />
                 </div>
 

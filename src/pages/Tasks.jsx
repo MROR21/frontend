@@ -7,6 +7,11 @@ export function Tasks(){
 
     const navigate = useNavigate();
     const logout = useAppStore((state) => state.logout);
+    
+    const isNewUser = useAppStore((state) => state.isNewUser);
+    const clearNewUserFlag = useAppStore((state) => state.clearNewUserFlag);
+    const [isExiting, setIsExiting] = useState(false);
+
     const {tasks,isLoading, error, fetchTasks, addTask, updateTaskStatus, deleteTask} = useTask();
 
     const [filtroAtual, setFiltroAtual] = useState('Todas');
@@ -19,6 +24,24 @@ export function Tasks(){
     const today = new Date().toISOString().split('T')[0];
     const [showLogoutModal, setShowLogoutModal] = useState(false);
     const userName = useAppStore((state) => state.userName); 
+
+ useEffect(() => {
+   if (isNewUser) {
+     const exitTimer = setTimeout(() => {
+       setIsExiting(true);
+     }, 3500);
+
+     const removeTimer = setTimeout(() => {
+       clearNewUserFlag();
+     }, 4000);
+
+     return () => {
+       clearTimeout(exitTimer);
+       clearTimeout(removeTimer);
+       setIsExiting(false);
+     };
+   }
+ }, [isNewUser, clearNewUserFlag]);
 
     useEffect(() => {
         fetchTasks();
@@ -62,7 +85,47 @@ export function Tasks(){
     }
 
     return (
-      <div className="min-h-screen bg-gray-100 p-8">
+      <div className="min-h-screen bg-gray-100 p-8 relative">
+
+        {isNewUser && (
+          <div className={`fixed bottom-5 left-5 z-[70] ${isExiting ? 'animate-[slide-down_0.5s_forwards]' : 'animate-[slide-up_0.5s_ease-out]'}`}>
+            <div className="relative overflow-hidden bg-emerald-600 text-white px-6 py-4 rounded-lg shadow-2xl flex items-center gap-3 border-b-4 border-emerald-800">
+              <div className="bg-white/20 p-2 rounded-full text-xl animate-[spin_3s_linear_infinite]">✅</div>
+              <div>
+                <p className="font-bold text-lg leading-tight text-white">
+                  Bem-vindo, {userName}!
+                </p>
+                <p className="text-sm opacity-95 text-emerald-50 font-medium">
+                  Sua conta foi criada com sucesso.
+                </p>
+              </div>
+
+              <div className="absolute bottom-0 left-0 h-1 bg-emerald-300/50 w-full origin-left" />
+            </div>
+
+            <style dangerouslySetInnerHTML={{__html: `
+
+                  @keyframes slide-up {
+                  from { transform: translateY(100%); opacity: 0; }
+                  to { transform: translateY(0); opacity: 1; }
+               }
+                  @keyframes slide-down {
+                  from { transform: translateY(0); opacity: 1; }
+                  to { transform: translateY(100%); opacity: 0; }
+               }
+                  @keyframes shrink {
+                  from { transform: scaleX(1); }
+                  to { transform: scaleX(0); }
+               }
+                  @keyframes spin {
+                  from { transform: rotate(0deg); }
+                  to { transform: rotate(360deg); }
+               }
+
+            `,}}/>
+          </div>
+        )}
+
         <div className="max-w-4xl mx-auto">
           <div className="flex justify-between items-center bg-white p-6 rounded-lg shadow-md mb-8">
             <h1 className="text-3xl font-bold text-blue-600">Minhas Tarefas</h1>
@@ -92,8 +155,10 @@ export function Tasks(){
                       Encerrar Sessão?
                     </h3>
                     <p className="text-gray-600 mb-6">
-                        <span className="font-bold text-blue-600">{userName || 'Usuário'}</span>,
-                      você tem certeza que deseja sair do sistema agora?
+                      <span className="font-bold text-blue-600">
+                        {userName || "Usuário"}
+                      </span>
+                      , você tem certeza que deseja sair do sistema agora?
                     </p>
 
                     <div className="flex gap-3">
